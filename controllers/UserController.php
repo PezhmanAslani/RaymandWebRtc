@@ -5,8 +5,21 @@ use app\models\Users\TblUsers;
 use app\tools\ResponseStatusEnum;
 use app\tools\RestfulController;
 use Yii;
+use yii\filters\VerbFilter;
+use yii\rest\ActiveController;
 
-class UserController extends RestfulController{
+class UserController extends ActiveController {
+    public function behaviors(): array
+    {
+        $behaviors = parent::behaviors();
+         $behaviors['verbs']=[
+             'class' => VerbFilter::class,
+             'actions' => [
+                 'login'  => ['post'],
+             ],
+         ];
+        return $behaviors;
+    }
 
     public $enableCsrfValidation = false;
     public $modelClass = TblUsers::class;
@@ -17,7 +30,6 @@ class UserController extends RestfulController{
     ];
     public function actionLogin(): array
     {
-
         $model = TblUsers::findone([
             'username' => Yii::$app->request->post("username"),
             'password' => md5(Yii::$app->request->post("password")),
