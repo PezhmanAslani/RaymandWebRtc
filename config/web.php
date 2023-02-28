@@ -13,6 +13,9 @@ $config = [
     ],
     'components' => [
         'request' => [
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'pNG1MTj1-_ApEmX_ER--9wRb5fFW0V-I',
         ],
@@ -20,7 +23,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\Users\TblUsers',
             'enableAutoLogin' => false,
             'enableSession' => true,
             'loginUrl' => null
@@ -54,7 +57,6 @@ $config = [
                     'class' => 'yii\rest\UrlRule', 'controller' => 'user',
                     'extraPatterns' => [
                         'login' => 'login',
-
                     ]
                 ],
                 // [
@@ -96,7 +98,7 @@ $config = [
         'jwt' => [
             'class' => \bizley\jwt\Jwt::class,
             'signer' => \bizley\jwt\Jwt::HS256,
-            'signingKey' => "JYET#8635e3^%E73te8737e37e8",
+            'signingKey' => "JYET#8635e3^%E73te873dsffddsfsdfsdf7e37e8",
         ],
         
     ],

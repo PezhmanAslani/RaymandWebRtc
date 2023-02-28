@@ -1,31 +1,25 @@
 <?php
 namespace app\controllers;
 
-use app\models\TblUsers;
+use app\models\Users\TblUsers;
 use app\tools\ResponseStatusEnum;
 use app\tools\RestfulController;
 use Yii;
-class UserController extends RestfulController{
-    
-    public $enableCsrfValidation = false;
 
+class UserController extends RestfulController{
+    public $enableCsrfValidation = false;
     public $modelClass = TblUsers::class;
+
     public $serializer = [
         'class' => \yii\rest\Serializer::class,
         'collectionEnvelope' => 'items',
     ];
 
-    public function actions()
-    {
-        $actions = parent::actions();
-        $actions['index']['prepareDataProvider'] = function ($action) {
 
-        };
-        return $actions;
-    }
     public function actionLogin(): array
     {
-        $model = TblUsers::findOne([
+
+        $model = TblUsers::findone([
             'username' => Yii::$app->request->post("username"),
             'password' => md5(Yii::$app->request->post("password")),
         ]);
@@ -42,7 +36,6 @@ class UserController extends RestfulController{
                 ]
             ];
         }
-
         $now = new \DateTimeImmutable();
         $exp = $now->modify('+720 minute');
         $token = Yii::$app->jwt->getBuilder()
@@ -55,8 +48,6 @@ class UserController extends RestfulController{
                 Yii::$app->jwt->getConfiguration()->signer(),
                 Yii::$app->jwt->getConfiguration()->signingKey()
             );
-
-
         $model->accessToken = $token->toString();
         $model->authKey = "*";
         $model->save();
@@ -72,7 +63,6 @@ class UserController extends RestfulController{
                 "username" => $model->username,
                 "user_id" => Yii::$app->user->getId(),
                 'token' => $token->toString(),
-
             ];
         }
         return [

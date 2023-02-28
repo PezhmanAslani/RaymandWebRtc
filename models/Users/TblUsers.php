@@ -1,7 +1,8 @@
 <?php
 
-namespace app\models;
+namespace app\models\Users;
 
+use app\models\TblUsersQuery;
 use Lcobucci\JWT\Token;
 use Yii;
 use yii\web\IdentityInterface;

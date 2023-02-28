@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\Users\TblUsers;
+
 /**
  * This is the ActiveQuery class for [[TblUsers]].
  *
