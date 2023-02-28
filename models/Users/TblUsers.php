@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+use Lcobucci\JWT\Token;
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "tblUsers".
@@ -13,7 +15,7 @@ use Yii;
  * @property string $authKey
  * @property string $accessToken
  */
-class TblUsers extends \yii\db\ActiveRecord
+class TblUsers extends \yii\db\ActiveRecord implements IdentityInterface
 {
     /**
      * {@inheritdoc}
@@ -55,8 +57,53 @@ class TblUsers extends \yii\db\ActiveRecord
      * {@inheritdoc}
      * @return TblUsersQuery the active query used by this AR class.
      */
-    public static function find()
+    public static function find(): TblUsersQuery
     {
         return new TblUsersQuery(get_called_class());
+    }
+
+    public static function findIdentity($id): ?TblUsers
+    {
+        return TblUsers::findOne(['id' => $id]);
+
+    }
+
+    private static function getJwt($token): Token
+    {
+        return Yii::$app->jwt->parse($token);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null): ?TblUsers
+    {
+        $now = new \DateTimeImmutable();
+        if (self::getJwt($token)->isExpired($now)) {
+            return null;
+        }
+        return TblUsers::findOne(['accessToken' => $token]);
+    }
+
+    public static function findByUsername($username): ?TblUsers
+    {
+        return TblUsers::findOne(['username' => $username]);
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getAuthKey(): string
+    {
+        return $this->authKey;
+    }
+
+    public function validateAuthKey($authKey): bool
+    {
+        return $this->authKey === $authKey;
+    }
+
+    public function validatePassword($password): bool
+    {
+        return $this->password === md5($password);
     }
 }
