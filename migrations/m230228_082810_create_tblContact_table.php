@@ -16,7 +16,6 @@ class m230228_082810_create_tblContact_table extends Migration
             'id' => $this->primaryKey(),
             'name'=>$this->string()->notNull(),
             'number'=>$this->string()->notNull()->unique(),
-
         ]);
     }
 

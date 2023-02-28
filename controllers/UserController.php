@@ -7,6 +7,7 @@ use app\tools\RestfulController;
 use Yii;
 
 class UserController extends RestfulController{
+
     public $enableCsrfValidation = false;
     public $modelClass = TblUsers::class;
 
@@ -14,8 +15,6 @@ class UserController extends RestfulController{
         'class' => \yii\rest\Serializer::class,
         'collectionEnvelope' => 'items',
     ];
-
-
     public function actionLogin(): array
     {
 

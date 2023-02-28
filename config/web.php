@@ -59,13 +59,9 @@ $config = [
                         'login' => 'login',
                     ]
                 ],
-                // [
-                //     'class' => 'yii\rest\UrlRule', 'controller' => 'spp',
-                //     'extraPatterns' => [
-                //         'GET get-all' => 'get-all',
-                //         'OPTIONS get-all' => 'options',
-                //     ]
-                // ],
+                 [
+                     'class' => 'yii\rest\UrlRule', 'controller' => 'contact',
+                 ],
                 // ['class' => 'yii\rest\UrlRule', 'controller' => 'variable'],
                 // [
                 //     'class' => 'yii\rest\UrlRule', 'controller' => 'sip-profile',
