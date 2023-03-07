@@ -1,23 +1,26 @@
 <?php
+
 namespace app\controllers;
 
 use app\models\Users\TblUsers;
 use app\tools\ResponseStatusEnum;
 use app\tools\RestfulController;
+use DateTimeZone;
 use Yii;
 use yii\filters\VerbFilter;
-use yii\rest\ActiveController;
 
-class UserController extends ActiveController {
+
+class UserController extends RestfulController
+{
     public function behaviors(): array
     {
         $behaviors = parent::behaviors();
-         $behaviors['verbs']=[
-             'class' => VerbFilter::class,
-             'actions' => [
-                 'login'  => ['post'],
-             ],
-         ];
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::class,
+            'actions' => [
+                'login'  => ['post'],
+            ],
+        ];
         return $behaviors;
     }
 
@@ -36,19 +39,16 @@ class UserController extends ActiveController {
         ]);
 
         if ($model == null) {
+            Yii::$app->response->statusCode = 422;
             return [
-                "status" => ResponseStatusEnum::$Error,
-                "auth" => false,
-                "username" => null,
-                "user_id" => null,
-                'token' => null,
                 'messages' => [
                     'Username or password is incorrect'
                 ]
             ];
         }
         $now = new \DateTimeImmutable();
-        $exp = $now->modify('+720 minute');
+        $now = $now->setTimezone(new DateTimeZone('Asia/Tehran'));
+        $exp = $now->modify('+10 minute');
         $token = Yii::$app->jwt->getBuilder()
             ->withClaim('uid', $model->id)
             ->issuedAt($now)
@@ -71,17 +71,13 @@ class UserController extends ActiveController {
             return [
                 "status" => ResponseStatusEnum::$Success,
                 "auth" => true,
+                "expire_time" => $exp,
                 "username" => $model->username,
                 "user_id" => Yii::$app->user->getId(),
                 'token' => $token->toString(),
             ];
         }
         return [
-            "status" => ResponseStatusEnum::$Error,
-            "auth" => false,
-            "username" => null,
-            "user_id" => null,
-            'token' => null,
             'messages' => [
                 'Username or password is incorrect'
             ]

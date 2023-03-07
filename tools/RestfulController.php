@@ -1,4 +1,5 @@
 <?php
+
 namespace app\tools;
 
 use Yii;
@@ -6,7 +7,8 @@ use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 
-class RestfulController extends ActiveController{
+class RestfulController extends ActiveController
+{
 
     public function behaviors(): array
     {

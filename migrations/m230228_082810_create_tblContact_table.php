@@ -15,7 +15,7 @@ class m230228_082810_create_tblContact_table extends Migration
         $this->createTable('{{%tblContact}}', [
             'id' => $this->primaryKey(),
             'name'=>$this->string()->notNull(),
-            'number'=>$this->string()->notNull()->unique(),
+            'phoneNumber'=>$this->string()->notNull()->unique(),
         ]);
     }
 

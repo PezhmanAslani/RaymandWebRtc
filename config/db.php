@@ -3,7 +3,7 @@
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'pgsql:host=localhost;port=5432;dbname=webrtc',
-    'username' => 'pejman',
+    'username' => 'postgres',
     'password' => '123',
     'charset' => 'utf8',
 

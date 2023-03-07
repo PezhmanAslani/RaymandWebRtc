@@ -2,7 +2,7 @@
 
 namespace app\tools;
 
-class Callcenter
+class CallCenter extends RestfulController
 {
-   
+
 }

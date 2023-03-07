@@ -62,6 +62,9 @@ $config = [
                  [
                      'class' => 'yii\rest\UrlRule', 'controller' => 'contact',
                  ],
+                [
+                    'class'=>'yii\rest\UrlRule','controller'=>'history'
+                ]
                 // ['class' => 'yii\rest\UrlRule', 'controller' => 'variable'],
                 // [
                 //     'class' => 'yii\rest\UrlRule', 'controller' => 'sip-profile',
